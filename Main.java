@@ -19,7 +19,9 @@ public class Main {
         //System.out.println(Arrays.deepToString(driver.getEmails()[0].getFeatures().getWordFrequency()));
         //System.out.println(Arrays.deepToString(driver.getEmails()[0].getFeatures().getNGramFrequency()));
         //System.out.println(Arrays.toString(driver.getEmails()[1].getWords()));
-        System.out.println(Arrays.deepToString(driver.getEmails()[0].getFeatures().getWordSizeDistribution()));
+        System.out.println(driver.getEmails()[0].getFeatures().getMeanWordSize());
+        System.out.println(driver.getEmails()[0].getFeatures().getMedianWordSize());
+        System.out.println(driver.getEmails()[0].getFeatures().getModeWordSize());
 
 
     }

@@ -29,9 +29,9 @@ public class EmailFeatures {
         nGramFrequency = extractNGramFrequency(DatasetProcessor.spamNGrams);
         specialCharacterWordCount = extractSpecialCharacterWordCount();
         wordSizeDistribution = extractWordSizeDistribution(DatasetProcessor.largestWordSize);
-        meanWordSize = extractmeanWordSize();
-        medianWordSize = extractmedianWordSize();
-        modeWordSize = extractedmodeWordSize();
+        meanWordSize = extractMeanWordSize();
+        medianWordSize = extractMedianWordSize();
+        modeWordSize = extractModeWordSize();
     }
 
     public int extractUrlCount() {
@@ -127,7 +127,7 @@ public class EmailFeatures {
         return wordSizeDistribution;
     }
 
-    public double extractmeanWordSize() {
+    public double extractMeanWordSize() {
         int totalLength = 0;
 
         for(String word : words) {
@@ -139,7 +139,7 @@ public class EmailFeatures {
         return (double)totalLength / words.length;
     }
 
-    public double extractmedianWordSize() {
+    public double extractMedianWordSize() {
         int[] wordLengths = new int[words.length];
         for(int i = 0; i < words.length; i++) {
             wordLengths[i] = words[i].length();
@@ -147,14 +147,15 @@ public class EmailFeatures {
         Arrays.sort(wordLengths);
 
         int middle = wordLengths.length / 2;
-        if(wordLengths.length / 2 == 0) {
-            return(wordLengths[middle - 1] + wordLengths[middle]);
-        } else {
+        if(wordLengths.length % 2 == 0) {
+            return((wordLengths[middle - 1] + wordLengths[middle]) / 2.0);
+        }
+        else {
             return wordLengths[middle];
         }
     }
 
-    public int extractmodeWordSize() {
+    public int extractModeWordSize() {
         HashMap<Integer, Integer> lengthFrequency = new HashMap<>();
 
         for(String word : words) {
@@ -172,7 +173,6 @@ public class EmailFeatures {
         }
         return modeLength;
     }
-
 
 
 
@@ -194,5 +194,13 @@ public class EmailFeatures {
     public int[][] getWordSizeDistribution() {
         return wordSizeDistribution;
     }
-
+    public double getMeanWordSize() {
+        return meanWordSize;
+    }
+    public double getMedianWordSize() {
+        return medianWordSize;
+    }
+    public int getModeWordSize() {
+        return modeWordSize;
+    }
 }

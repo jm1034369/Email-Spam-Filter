@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EmailFeatures {
 
@@ -27,6 +29,9 @@ public class EmailFeatures {
         nGramFrequency = extractNGramFrequency(DatasetProcessor.spamNGrams);
         specialCharacterWordCount = extractSpecialCharacterWordCount();
         wordSizeDistribution = extractWordSizeDistribution(DatasetProcessor.largestWordSize);
+        meanWordSize = extractmeanWordSize();
+        medianWordSize = extractmedianWordSize();
+        modeWordSize = extractedmodeWordSize();
     }
 
     public int extractUrlCount() {
@@ -121,6 +126,53 @@ public class EmailFeatures {
         }
         return wordSizeDistribution;
     }
+
+    public double extractmeanWordSize() {
+        int totalLength = 0;
+
+        for(String word : words) {
+            totalLength += word.length();
+        }
+        if(totalLength == 0) {
+            return 0.0;
+        }
+        return (double)totalLength / words.length;
+    }
+
+    public double extractmedianWordSize() {
+        int[] wordLengths = new int[words.length];
+        for(int i = 0; i < words.length; i++) {
+            wordLengths[i] = words[i].length();
+        }
+        Arrays.sort(wordLengths);
+
+        int middle = wordLengths.length / 2;
+        if(wordLengths.length / 2 == 0) {
+            return(wordLengths[middle - 1] + wordLengths[middle]);
+        } else {
+            return wordLengths[middle];
+        }
+    }
+
+    public int extractmodeWordSize() {
+        HashMap<Integer, Integer> lengthFrequency = new HashMap<>();
+
+        for(String word : words) {
+            int length = word.length();
+            lengthFrequency.put(length, lengthFrequency.getOrDefault(length, 0) + 1);
+        }
+        int modeLength = 0;
+        int maxFrequency = 0;
+
+        for(Map.Entry<Integer, Integer> entry : lengthFrequency.entrySet()) {
+            if(entry.getValue() > maxFrequency) {
+                maxFrequency = entry.getValue();
+                modeLength = entry.getKey();
+            }
+        }
+        return modeLength;
+    }
+
 
 
 

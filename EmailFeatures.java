@@ -44,29 +44,17 @@ public class EmailFeatures {
         return count;
     }
 
-    public String[][] extractWordFrequency(String[] uniqueWords) {
-        String[][] wordFrequency = new String[uniqueWords.length][2];
-        String[] sortedWords = new String[words.length];
-        for(int i = 0; i < words.length; i++) {
-            sortedWords[i] = words[i];
+    public String [][] extractWordFrequency(String[] uniqueWords) {
+        Map<String, Integer> freqMap = new HashMap<>();
+        for(String word : words) {
+            freqMap.put(word, freqMap.getOrDefault(word, 0) + 1);
         }
-        Arrays.sort(sortedWords);
+        String [][] wordFrequency = new String[uniqueWords.length] [2];
         for(int i = 0; i < uniqueWords.length; i++) {
-            wordFrequency[i][0] = uniqueWords[i];
-
-            if(Arrays.binarySearch(sortedWords, uniqueWords[i]) < 0) {
-                wordFrequency[i][1] = "0";
-            }
-            else {
-                //count how many times uniqueWords[i] appears in words
-                int count = 0;
-                for(int j = 0; j < sortedWords.length; j++) {
-                    if(sortedWords[j].equals(uniqueWords[i])) {
-                        count++;
-                    }
-                }
-                    wordFrequency[i][1] = count + "";
-            }
+            String key = uniqueWords[i];
+            int count = freqMap.getOrDefault(key, 0);
+            wordFrequency [i][0] = key;
+            wordFrequency [i][1] = Integer.toString(count);
         }
         return wordFrequency;
     }
